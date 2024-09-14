@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.medicine.mapper.HisMedicineOrderDetailMapper">
+    
+    <resultMap type="HisMedicineOrderDetail" id="HisMedicineOrderDetailResult">
+        <result property="detailId"    column="detail_id"    />
+        <result property="drugId"    column="drug_id"    />
+        <result property="detailNum"    column="detail_num"    />
+        <result property="detailMoney"    column="detail_money"    />
+        <result property="detailBatch"    column="detail_batch"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHisMedicineOrderDetailVo">
+        select detail_id, drug_id, detail_num, detail_money, detail_batch, order_id, status, create_by, create_time, update_by, update_time, remark from his_medicine_order_detail
+    </sql>
+
+    <select id="selectHisMedicineOrderDetailList" parameterType="HisMedicineOrderDetail" resultMap="HisMedicineOrderDetailResult">
+        <include refid="selectHisMedicineOrderDetailVo"/>
+        <where>  
+            <if test="drugId != null "> and drug_id = #{drugId}</if>
+            <if test="detailNum != null "> and detail_num = #{detailNum}</if>
+            <if test="detailMoney != null "> and detail_money = #{detailMoney}</if>
+            <if test="detailBatch != null  and detailBatch != ''"> and detail_batch = #{detailBatch}</if>
+            <if test="orderId != null "> and order_id = #{orderId}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectHisMedicineOrderDetailByDetailId" parameterType="Long" resultMap="HisMedicineOrderDetailResult">
+        <include refid="selectHisMedicineOrderDetailVo"/>
+        where detail_id = #{detailId}
+    </select>
+
+    <insert id="insertHisMedicineOrderDetail" parameterType="HisMedicineOrderDetail" useGeneratedKeys="true" keyProperty="detailId">
+        insert into his_medicine_order_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="drugId != null">drug_id,</if>
+            <if test="detailNum != null">detail_num,</if>
+            <if test="detailMoney != null">detail_money,</if>
+            <if test="detailBatch != null">detail_batch,</if>
+            <if test="orderId != null">order_id,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="drugId != null">#{drugId},</if>
+            <if test="detailNum != null">#{detailNum},</if>
+            <if test="detailMoney != null">#{detailMoney},</if>
+            <if test="detailBatch != null">#{detailBatch},</if>
+            <if test="orderId != null">#{orderId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHisMedicineOrderDetail" parameterType="HisMedicineOrderDetail">
+        update his_medicine_order_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="drugId != null">drug_id = #{drugId},</if>
+            <if test="detailNum != null">detail_num = #{detailNum},</if>
+            <if test="detailMoney != null">detail_money = #{detailMoney},</if>
+            <if test="detailBatch != null">detail_batch = #{detailBatch},</if>
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where detail_id = #{detailId}
+    </update>
+
+    <delete id="deleteHisMedicineOrderDetailByDetailId" parameterType="Long">
+        delete from his_medicine_order_detail where detail_id = #{detailId}
+    </delete>
+
+    <delete id="deleteHisMedicineOrderDetailByDetailIds" parameterType="String">
+        delete from his_medicine_order_detail where detail_id in 
+        <foreach item="detailId" collection="array" open="(" separator="," close=")">
+            #{detailId}
+        </foreach>
+    </delete>
+</mapper>
